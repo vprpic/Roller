@@ -17,7 +17,6 @@ public class Player : MonoBehaviour {
 	}
 	
 	void Update () {
-        transform.Rotate(rotationSpeed * Time.deltaTime, 0, 0);
         if(goLeft)
         {
             MoveLeft();

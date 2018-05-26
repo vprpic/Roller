@@ -41,39 +41,63 @@ public class Spawner : MonoBehaviour {
         }
     }
 
-    //spawns an obstacle and a collectable
     public void Spawn()
     {
-        int randomObstacleNum = UnityEngine.Random.Range(0, numOfObstacles);
-        int newPosition = UnityEngine.Random.Range(0, spawnPoints.Count);
+        List<bool> spawnTaken = PrepareSpawnList();
         //TODO: remember last few locations and avoid respawning at that spawn
         //TODO: obstacles with 2 spawn points
-        SpawnRandomObstacle(randomObstacleNum, newPosition);
-
-        newPosition = getFreeSpawn(newPosition);
-        SpawnRandomCollectable(newPosition);
+        SpawnRandomObstacle(spawnTaken);
+        SpawnRandomObstacle(spawnTaken);
+        SpawnRandomCollectable(spawnTaken);
     }
 
-    private int getFreeSpawn(int newPosition)
+    private List<bool> PrepareSpawnList()
     {
-        int temp;
-        do
+        List<bool> spawnTaken = new List<bool>();
+        for (int i = 0; i < spawnPoints.Count; i++)
         {
-            temp = UnityEngine.Random.Range(0, spawnPoints.Count);
-        } while (temp == newPosition);
-        return temp;
+            spawnTaken.Add(false);
+        }
+        return spawnTaken;
     }
 
-    private void SpawnRandomCollectable(int newPosition)
+    private void SpawnRandomCollectable(List<bool> spawnTaken)
     {
         //TODO: make more types of collectables - moving laser or smt
-        Instantiate(collectable, spawnPoints[newPosition].position, spawnPoints[newPosition].rotation, obstaclesAndCollectablesParent.transform);
+        int newPosition = FindNewSpawn(spawnTaken);
+        if (newPosition != -1)
+        {
+            Instantiate(collectable, spawnPoints[newPosition].position, spawnPoints[newPosition].rotation, obstaclesAndCollectablesParent.transform);
+        }
     }
 
-    //instantiate a randomly chosen obstacle in a randomly chosen spawn point
-    private void SpawnRandomObstacle(int randomObstacleNum, int newPosition)
+    private void SpawnRandomObstacle(List<bool> spawnTaken)
     {
-        Instantiate(obstacles[randomObstacleNum], spawnPoints[newPosition].position, spawnPoints[newPosition].rotation, obstaclesAndCollectablesParent.transform);
+        int newPosition = FindNewSpawn(spawnTaken);
+        int randomObstacleNum = FindNewObstacle();
+        if(newPosition != -1)
+        {
+            Instantiate(obstacles[randomObstacleNum], spawnPoints[newPosition].position, spawnPoints[newPosition].rotation, obstaclesAndCollectablesParent.transform);
+        }
     }
 
+    private int FindNewObstacle()
+    {
+        return UnityEngine.Random.Range(0, numOfObstacles);
+    }
+
+    private int FindNewSpawn(List<bool> spawnTaken)
+    {
+        int newPosition = -1;
+
+        if (spawnTaken.Contains(false))
+        {
+            do
+            {
+                newPosition = UnityEngine.Random.Range(0, spawnPoints.Count);
+            } while (spawnTaken[newPosition]);
+        }
+        spawnTaken[newPosition] = true;
+        return newPosition;
+    }
 }
