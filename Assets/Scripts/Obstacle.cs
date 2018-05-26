@@ -6,6 +6,13 @@ using UnityEngine;
 public class Obstacle : MonoBehaviour {
     public float movementSpeed = -5.0f;
 
+    private GameController gameController;
+
+    private void Start()
+    {
+        gameController = GameObject.FindGameObjectWithTag("MainCamera").gameObject.GetComponent<GameController>();
+    }
+
     void Update()
     {
         Move();
@@ -19,7 +26,7 @@ public class Obstacle : MonoBehaviour {
         }
         else if (other.gameObject.tag == "Player")
         {
-
+            gameController.GameOver();
         }
     }
 

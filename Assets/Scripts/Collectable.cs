@@ -7,12 +7,11 @@ public class Collectable : MonoBehaviour {
 
     public static int score = 0;
     public float movementSpeed = -5.0f;
-
-    private UIManager uiManager;
+    private GameController gameController;
 
     private void Start()
     {
-        uiManager = GameObject.FindGameObjectWithTag("Canvas").GetComponent(typeof(UIManager)) as UIManager;
+        gameController = GameObject.FindGameObjectWithTag("MainCamera").gameObject.GetComponent<GameController>();
     }
 
     void Update () {
@@ -33,8 +32,7 @@ public class Collectable : MonoBehaviour {
         else if(other.gameObject.tag == "Player")
         {
             Destroy(gameObject);
-            //IncrementScore();
-            uiManager.IncrementScore();
+            gameController.IncrementScore();
         }
     }
 

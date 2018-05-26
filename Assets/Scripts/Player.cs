@@ -6,12 +6,11 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     public float rotationSpeed;
-    public TapTest tapTest;
+    //public TapTest tapTest;
     public Transform LeftSpot;
     public Transform RightSpot;
     public float speed = 5;
-
-    private bool goLeft; 
+    public bool goLeft; 
 
 	void Start () {
         goLeft = true;
@@ -19,17 +18,6 @@ public class Player : MonoBehaviour {
 	
 	void Update () {
         transform.Rotate(rotationSpeed * Time.deltaTime, 0, 0);
-        if (tapTest.Tap)
-        {
-            if(goLeft)
-            {
-                goLeft = false;
-            }
-            else
-            {
-                goLeft = true;
-            }
-        }
         if(goLeft)
         {
             MoveLeft();
