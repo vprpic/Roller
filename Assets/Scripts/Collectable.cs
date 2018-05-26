@@ -5,8 +5,15 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour {
 
-    public int score = 0;
+    public static int score = 0;
     public float movementSpeed = -5.0f;
+
+    private UIManager uiManager;
+
+    private void Start()
+    {
+        uiManager = GameObject.FindGameObjectWithTag("Canvas").GetComponent(typeof(UIManager)) as UIManager;
+    }
 
     void Update () {
         Move();
@@ -26,7 +33,8 @@ public class Collectable : MonoBehaviour {
         else if(other.gameObject.tag == "Player")
         {
             Destroy(gameObject);
-            IncrementScore();
+            //IncrementScore();
+            uiManager.IncrementScore();
         }
     }
 

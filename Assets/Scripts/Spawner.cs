@@ -38,14 +38,16 @@ public class Spawner : MonoBehaviour {
         for (int o = 0; o < numOfObstacles; o++)
         {
             obstacles[o] = Resources.Load("Prefabs/Obstacles/Obstacle" + o) as GameObject;
-            Debug.Log("Prefabs/Obstacles/Obstacle" + o);
         }
     }
 
+    //spawns an obstacle and a collectable
     public void Spawn()
     {
         int randomObstacleNum = UnityEngine.Random.Range(0, numOfObstacles);
         int newPosition = UnityEngine.Random.Range(0, spawnPoints.Count);
+        //TODO: remember last few locations and avoid respawning at that spawn
+        //TODO: obstacles with 2 spawn points
         SpawnRandomObstacle(randomObstacleNum, newPosition);
 
         newPosition = getFreeSpawn(newPosition);
@@ -58,13 +60,13 @@ public class Spawner : MonoBehaviour {
         do
         {
             temp = UnityEngine.Random.Range(0, spawnPoints.Count);
-            //Debug.Log("Spawner - temp: " + temp);
         } while (temp == newPosition);
         return temp;
     }
 
     private void SpawnRandomCollectable(int newPosition)
     {
+        //TODO: make more types of collectables - moving laser or smt
         Instantiate(collectable, spawnPoints[newPosition].position, spawnPoints[newPosition].rotation, obstaclesAndCollectablesParent.transform);
     }
 
