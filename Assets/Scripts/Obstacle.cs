@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Obstacle : MonoBehaviour {
-    public float movementSpeed = -5.0f;
+    private float movementSpeed = -12.0f;
 
     private GameController gameController;
 

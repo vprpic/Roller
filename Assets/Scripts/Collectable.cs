@@ -6,7 +6,7 @@ using UnityEngine;
 public class Collectable : MonoBehaviour {
 
     public static int score = 0;
-    public float movementSpeed = -5.0f;
+    private float movementSpeed = -12.0f;
     private GameController gameController;
 
     private void Start()

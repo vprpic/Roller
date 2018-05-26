@@ -12,7 +12,8 @@ public class Spawner : MonoBehaviour {
     public float respawnSpeed = 2.0f;
     public float startRespawnTime = 2.0f;
 
-    private static int numOfObstacles = 1;
+    //manually inputed number of prefabs in the obstacles folder
+    private static int numOfObstacles = 2;
 
     private void Start()
     {
@@ -47,8 +48,11 @@ public class Spawner : MonoBehaviour {
         //TODO: remember last few locations and avoid respawning at that spawn
         //TODO: obstacles with 2 spawn points
         SpawnRandomObstacle(spawnTaken);
-        SpawnRandomObstacle(spawnTaken);
-        SpawnRandomCollectable(spawnTaken);
+        //SpawnRandomObstacle(spawnTaken);
+        if (UnityEngine.Random.Range(0, 9) < 5)
+        {
+            SpawnRandomCollectable(spawnTaken);
+        }
     }
 
     private List<bool> PrepareSpawnList()
